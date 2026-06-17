@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HELADERIA_BD" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-7TG99KB;Initial Catalog=HELADERIA_BD;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="SistemaHeladeria_Sagua.Properties.Settings" SettingsPropertyName="HELADERIA_BDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Categoria" Member="Categoria">
+    <Type Name="Categoria">
+      <Column Name="id_categ" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="VarChar(70)" CanBeNull="true" />
+      <Column Name="estado" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Association Name="Categoria_Helado" Member="Helado" ThisKey="id_categ" OtherKey="id_categ" Type="Helado" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cliente" Member="Cliente">
+    <Type Name="Cliente">
+      <Column Name="cod_cliente" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dni" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="apellido" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(75) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="celular" Type="System.String" DbType="VarChar(9)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(75)" CanBeNull="true" />
+      <Column Name="fec_nacimiento" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="cod_ubigeo" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Association Name="Cliente_Pedido" Member="Pedido" ThisKey="cod_cliente" OtherKey="cod_cliente" Type="Pedido" />
+      <Association Name="Ubigeo_Cliente" Member="Ubigeo" ThisKey="cod_ubigeo" OtherKey="cod_ubigeo" Type="Ubigeo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Detalle_Pedido" Member="Detalle_Pedido">
+    <Type Name="Detalle_Pedido">
+      <Column Name="id_pedido" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_pedido" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="cod_helado" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="precioventa" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Association Name="Helado_Detalle_Pedido" Member="Helado" ThisKey="cod_helado" OtherKey="cod_helado" Type="Helado" IsForeignKey="true" />
+      <Association Name="Pedido_Detalle_Pedido" Member="Pedido" ThisKey="cod_pedido" OtherKey="cod_pedido" Type="Pedido" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empleado" Member="Empleado">
+    <Type Name="Empleado">
+      <Column Name="cod_empleado" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dni" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="apellido" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(75) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="celular" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(75)" CanBeNull="true" />
+      <Column Name="fec_nacimiento" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="cod_ubigeo" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Association Name="Empleado_Usuario" Member="Usuario" ThisKey="cod_empleado" OtherKey="cod_empleado" Type="Usuario" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Helado" Member="Helado">
+    <Type Name="Helado">
+      <Column Name="cod_helado" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_categ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="composicion" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="stock_actual" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="precio" Type="System.Decimal" DbType="SmallMoney" CanBeNull="true" />
+      <Association Name="Helado_Detalle_Pedido" Member="Detalle_Pedido" ThisKey="cod_helado" OtherKey="cod_helado" Type="Detalle_Pedido" />
+      <Association Name="Categoria_Helado" Member="Categoria" ThisKey="id_categ" OtherKey="id_categ" Type="Categoria" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Horario" Member="Horario">
+    <Type Name="Horario">
+      <Column Name="cod_horario" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="VarChar(35) NOT NULL" CanBeNull="false" />
+      <Association Name="Horario_Pedido" Member="Pedido" ThisKey="cod_horario" OtherKey="cod_horario" Type="Pedido" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pedido" Member="Pedido">
+    <Type Name="Pedido">
+      <Column Name="cod_pedido" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cod_cliente" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="id_repartidor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cod_horario" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="fec_pedido" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="fec_expedicion" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="estado" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="Pedido_Detalle_Pedido" Member="Detalle_Pedido" ThisKey="cod_pedido" OtherKey="cod_pedido" Type="Detalle_Pedido" />
+      <Association Name="Horario_Pedido" Member="Horario" ThisKey="cod_horario" OtherKey="cod_horario" Type="Horario" IsForeignKey="true" />
+      <Association Name="Cliente_Pedido" Member="Cliente" ThisKey="cod_cliente" OtherKey="cod_cliente" Type="Cliente" IsForeignKey="true" />
+      <Association Name="Repartidor_Pedido" Member="Repartidor" ThisKey="id_repartidor" OtherKey="id_repartidor" Type="Repartidor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Repartidor" Member="Repartidor">
+    <Type Name="Repartidor">
+      <Column Name="id_repartidor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="apellido" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(75) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="cod_ubigeo" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Association Name="Repartidor_Pedido" Member="Pedido" ThisKey="id_repartidor" OtherKey="id_repartidor" Type="Pedido" />
+      <Association Name="Ubigeo_Repartidor" Member="Ubigeo" ThisKey="cod_ubigeo" OtherKey="cod_ubigeo" Type="Ubigeo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ubigeo" Member="Ubigeo">
+    <Type Name="Ubigeo">
+      <Column Name="cod_ubigeo" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="VarChar(70)" CanBeNull="true" />
+      <Column Name="cod_ubigeo_sup" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Association Name="Ubigeo_Cliente" Member="Cliente" ThisKey="cod_ubigeo" OtherKey="cod_ubigeo" Type="Cliente" />
+      <Association Name="Ubigeo_Repartidor" Member="Repartidor" ThisKey="cod_ubigeo" OtherKey="cod_ubigeo" Type="Repartidor" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuario" Member="Usuario">
+    <Type Name="Usuario">
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_empleado" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="clave" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="nivel" Type="System.String" DbType="VarChar(13) NOT NULL" CanBeNull="false" />
+      <Column Name="estado" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Association Name="Empleado_Usuario" Member="Empleado" ThisKey="cod_empleado" OtherKey="cod_empleado" Type="Empleado" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
